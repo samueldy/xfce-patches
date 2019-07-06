@@ -8,7 +8,7 @@ The patch in its current state can be applied to an Xfwm 4.12.5 or 4.13.2 codeba
 ### Screenshot
 Sample windows with 12 px radius for rounded corners, hidden decorations and disabled shadows for clarity.
 
-![](https://i.imgur.com/L84NfF2.png)
+![](screenshot.png)
 
 ### Applying the patch
 First, get the Xfwm's source code and checkout the tag corresponding to a supported version:
