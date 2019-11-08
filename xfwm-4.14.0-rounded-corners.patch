@@ -49,7 +49,7 @@ index 34d1466bb..ad744b4fb 100644
 +    DisplayInfo *display_info = screen_info->display_info;
 +
 +    int rad = screen_info->params->rounded_corners_radius;
-+    if (!rad || c->type == WINDOW_DOCK
++    if (!rad || c->type == WINDOW_DOCK || c->type == WINDOW_DESKTOP
 +        || FLAG_TEST_ALL (c->flags, CLIENT_FLAG_FULLSCREEN)
 +        || (FLAG_TEST_ALL (c->flags, CLIENT_FLAG_MAXIMIZED)
 +            && !screen_info->params->rounded_corners_maximized))
