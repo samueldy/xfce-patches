@@ -1,0 +1,12 @@
+diff --git a/libxfce4kbd-private/xfce-shortcuts-xfwm4.c b/libxfce4kbd-private/xfce-shortcuts-xfwm4.c
+index 9caf627..c7798ae 100644
+--- a/libxfce4kbd-private/xfce-shortcuts-xfwm4.c
++++ b/libxfce4kbd-private/xfce-shortcuts-xfwm4.c
+@@ -55,6 +55,7 @@ const ShortcutTemplate xfwm4_shortcut_values[] = {
+   { N_("Raise window"), "raise_window_key" },
+   { N_("Lower window"), "lower_window_key" },
+   { N_("Raise or lower window"), "raiselower_window_key" },
++  { N_("Center window"), "center_window_key" },
+   { N_("Fill window"), "fill_window_key" },
+   { N_("Fill window horizontally"), "fill_horiz_key" },
+   { N_("Fill window vertically"), "fill_vert_key" },
