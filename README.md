@@ -1,4 +1,4 @@
-# Xfce Patches
+# Xfce patches
 
 This is a repository with patches for some Xfce's components.
 
