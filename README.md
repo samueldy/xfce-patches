@@ -1,55 +1,68 @@
-## Xfwm Rounded Corners Patch
-This is a patch for Xfwm4 that allows drawing windows with rounded corners.
+# Xfce Patches
 
-It was adapted from a [patch targeting Openbox](https://github.com/dylanaraps/openbox-patched/blob/master/openbox-3.6.2-rounded-corners.patch) with some advanced copy-pasting techniques 🤭.
+This is a repository with patches for some Xfce's components.
 
-The patch can be applied to some common Xfwm versions and there are separate files for each one.
+Because Xfce is a modular desktop environment and its components may interact between themselves, the safest way is to keep them at the same versions as they're intended to be shipped with together. If you want to upgrade components to versions different than your currently installed, keep in mind that you might encounter some major or minor issues.
 
-### Screenshot
-Sample windows with 12 px radius for rounded corners, hidden decorations and disabled shadows for clarity.
+You can always check the version of any Xfce's component by using the `--version` option while executing its binary in the terminal. The component's version targeted by a patch is indicated in the file name of the given patch.
 
-![](screenshot.png)
+Don't expect any polished features. It's all just meant to be for personal use.
 
-### Applying the patch
-First, get the Xfwm's source code and checkout the tag corresponding to a supported version:
+## Available patches
+
+* [xfwm4](#xfwm4)
+  * [Rounded corners](#rounded-corners)
+
+## xfwm4
+
+### Building and running
+
+Get the xfwm4's source code and checkout a tag related to a supported version:
 ```
-git clone https://github.com/xfce-mirror/xfwm4.git
-cd xfwm4
-git checkout xfwm4-4.12.5
-```
-
-Then, make sure you can build the original source code without errors (hunt and install dependencies on your own):
-```
-./autogen.sh --prefix=/usr
-make
-```
-
-Finally, drop the adequate patch file into the current directory, apply it and build the modified source code:
-```
-git apply xfwm-4.12.5-rounded-corners.patch
-make
+git clone https://github.com/xfce-mirror/xfwm4.git && cd xfwm4
+git checkout xfwm4-4.14.0
 ```
 
-After that, there should be an `xfwm4` binary in the `src` subdirectory. You can run it as follows:
+Determine the system library path (do it on your own) and set a variable. For a Ubuntu-based distro it'll be:
+```
+LIBDIRPATH=/usr/lib/x86_64-linux-gnu
+```
+
+Configure the build environment (install required dependencies on your own) and compile the source code:
+```
+./autogen.sh --prefix=/usr --libdir=$LIBDIRPATH --libexecdir=$LIBDIRPATH && make
+```
+
+Check if the compiled version is working correctly:
 ```
 ./src/xfwm4 --replace & disown
 ```
 
-The easiest way to run it on a daily basis, without messing up your existing setup, is to create an autostart entry that launches the new `xfwm4` binary while stopping the original one. For example, it's possible to do it like this:
+If everything's fine, you can replace your currently installed version:
 ```
-tee ~/.config/autostart/xfwm-rounded-corners.desktop <<EOF
-[Desktop Entry]
-Type=Application
-Name=xfwm-rounded-corners
-Exec=$(pwd)/src/xfwm4 --replace
-OnlyShowIn=XFCE;
-EOF
+sudo make install
 ```
 
-### Configuring the rounded corners
-By default, the rounded corners have a radius of 8 px and are disabled for maximized windows. Also, window decorations are visible by default, but mind that most Xfwm themes won't look good with rounded corners because they provide side and bottom borders. Themes with no borders, but only with titlebar, should look fine though.
+If you want to restore the original version (example for Ubuntu):
+```
+sudo make uninstall
+sudo apt install --reinstall xfwm4
+```
 
-You can change the radius, enable maximized rounding or hide window decorations with these commands:
+### Rounded corners
+
+This is a patch that allows drawing windows with rounded corners and, optionally, no decorations.
+
+It is based on [an Openbox patch](https://github.com/dylanaraps/openbox-patched) and thus there is no antialiasing, despite xfwm's compositing capabilities.
+
+To use the patch, drop its file into the source code directory, apply it and rebuild the modified version:
+```
+git apply xfwm4-4.14.0-rounded-corners.patch && make
+```
+
+By default, rounded corners have a radius of 8 px and are disabled for maximized windows. Also, window decorations are visible by default, but mind that most xfwm themes won't look good with rounded corners because they provide side and bottom borders. Themes with no borders, but only with titlebar, should look fine though.
+
+To configure mentioned options, use following commands:
 
 ```
 xfconf-query -c xfwm4 -p /general/rounded_corners_radius -s 12
