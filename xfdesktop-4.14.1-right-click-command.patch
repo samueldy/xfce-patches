@@ -1,0 +1,64 @@
+diff --git a/src/xfce-desktop.c b/src/xfce-desktop.c
+index 40d74037..4dc8c8c1 100644
+--- a/src/xfce-desktop.c
++++ b/src/xfce-desktop.c
+@@ -147,6 +147,7 @@ enum
+     PROP_SINGLE_WORKSPACE_NUMBER,
+ };
+ 
++static gchar *right_click_command = "";
+ 
+ static void xfce_desktop_finalize(GObject *object);
+ static void xfce_desktop_set_property(GObject *object,
+@@ -1324,7 +1325,12 @@ xfce_desktop_button_press_event(GtkWidget *w,
+             if(!gtk_widget_has_grab(w))
+                 gtk_grab_add(w);
+ 
+-            xfce_desktop_popup_root_menu(desktop, button, evt->time);
++            if (strcmp(right_click_command, "")) {
++                xfce_spawn_command_line_on_screen(gdk_screen_get_default(),
++                                                  right_click_command, 0, 0, NULL);
++            } else {
++                xfce_desktop_popup_root_menu(desktop, button, evt->time);
++            }
+             return TRUE;
+         } else if(button == 2 || (button == 1 && (state & GDK_SHIFT_MASK)
+                                   && (state & GDK_CONTROL_MASK)))
+@@ -1473,6 +1479,19 @@ xfce_desktop_style_updated(GtkWidget *w)
+ #endif
+ }
+ 
++static void
++desktop_settings_changed(XfconfChannel *channel,
++                         const gchar *property,
++                         const GValue *value,
++                         gpointer user_data)
++{
++    if(!strcmp(property, "/general/right-click-command")) {
++        right_click_command = G_VALUE_TYPE(value)
++                              ? g_strdup(g_value_get_string(value))
++                              : g_strdup("");
++    }
++}
++
+ static void
+ xfce_desktop_connect_settings(XfceDesktop *desktop)
+ {
+@@ -1501,6 +1520,17 @@ xfce_desktop_connect_settings(XfceDesktop *desktop)
+     xfce_desktop_thaw_updates(desktop);
+ #undef ICONS_PREFIX
+ #endif
++
++    if(!xfconf_channel_has_property(channel, "/general/right-click-command")) {
++        xfconf_channel_set_string(channel, "/general/right-click-command", "");
++    }
++
++    GValue value = { 0, };
++    xfconf_channel_get_property(channel, "/general/right-click-command", &value);
++    right_click_command = g_strdup(g_value_get_string(&value));
++
++    g_signal_connect(G_OBJECT(channel), "property-changed",
++                     G_CALLBACK(desktop_settings_changed), NULL);
+ }
+ 
+ static gboolean
