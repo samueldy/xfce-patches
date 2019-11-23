@@ -1,0 +1,77 @@
+diff --git a/plugins/tasklist/tasklist-widget.c b/plugins/tasklist/tasklist-widget.c
+index 426089fd..fa702099 100644
+--- a/plugins/tasklist/tasklist-widget.c
++++ b/plugins/tasklist/tasklist-widget.c
+@@ -227,6 +227,8 @@ struct _XfceTasklistChild
+   GtkWidget              *box;
+   GtkWidget              *icon;
+   GtkWidget              *label;
++  GtkWidget              *label_fading_box;
++  GtkWidget              *label_overlay;
+ 
+   /* drag motion window activate */
+   guint                   motion_timeout_id;
+@@ -2231,6 +2233,11 @@ xfce_tasklist_child_new (XfceTasklist *tasklist)
+   GtkCssProvider    *provider;
+   gchar             *css_string;
+   GtkWidget         *plugin;
++  GtkWidget         *toplevel;
++  GtkStyleContext   *context;
++  GdkRGBA           *color;
++  gchar             *color_string;
++  gchar             *css_string_f;
+ 
+   panel_return_val_if_fail (XFCE_IS_TASKLIST (tasklist), NULL);
+ 
+@@ -2274,7 +2281,6 @@ xfce_tasklist_child_new (XfceTasklist *tasklist)
+     gtk_widget_show (child->icon);
+ 
+   child->label = gtk_label_new (NULL);
+-  gtk_box_pack_start (GTK_BOX (child->box), child->label, TRUE, TRUE, 0);
+   if (!xfce_tasklist_vertical (tasklist))
+     {
+       /* gtk_box_reorder_child (GTK_BOX (child->box), child->icon, 0); */
+@@ -2302,6 +2308,43 @@ xfce_tasklist_child_new (XfceTasklist *tasklist)
+   if (tasklist->show_labels)
+     gtk_widget_show (child->label);
+ 
++  child->label_fading_box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
++  gtk_widget_show (child->label_fading_box);
++
++  toplevel = gtk_widget_get_toplevel (plugin);
++  context = gtk_widget_get_style_context (GTK_WIDGET (toplevel));
++  gtk_style_context_get (context, GTK_STATE_FLAG_NORMAL,
++                         GTK_STYLE_PROPERTY_BACKGROUND_COLOR,
++                         &color, NULL);
++  color_string = gdk_rgba_to_string (color);
++
++  css_string = g_strdup ("box-shadow: inset -100px 0 20px -40px");
++  css_string_f = g_strdup_printf ("@define-color tasklist_faded_long_labels_color %s; "
++                                  "@define-color tasklist_faded_long_labels_color_hover %s; "
++                                  "@define-color tasklist_faded_long_labels_color_active %s; "
++                                  "button:not(:checked) > box > overlay > box { %s @tasklist_faded_long_labels_color; } "
++                                  "button:hover > box > overlay > box { %s @tasklist_faded_long_labels_color_hover; } "
++                                  "button:checked > box > overlay > box { %s @tasklist_faded_long_labels_color_active; }",
++                                  color_string, color_string, color_string,
++                                  css_string, css_string, css_string);
++  provider = gtk_css_provider_new ();
++  gtk_css_provider_load_from_data (provider, css_string_f, -1, NULL);
++  gtk_style_context_add_provider (gtk_widget_get_style_context (child->label_fading_box),
++                                  GTK_STYLE_PROVIDER (provider),
++                                  GTK_STYLE_PROVIDER_PRIORITY_THEME);
++  g_object_unref (provider);
++  g_free (color_string);
++  g_free (css_string);
++  g_free (css_string_f);
++
++  child->label_overlay = gtk_overlay_new ();
++  gtk_container_add (GTK_CONTAINER (child->label_overlay), child->label);
++  gtk_overlay_add_overlay (GTK_OVERLAY (child->label_overlay), child->label_fading_box);
++  gtk_overlay_set_overlay_pass_through (GTK_OVERLAY (child->label_overlay), child->label_fading_box, TRUE);
++  gtk_widget_show (child->label_overlay);
++
++  gtk_box_pack_start (GTK_BOX (child->box), child->label_overlay, TRUE, TRUE, 0);
++
+   gtk_drag_dest_set (GTK_WIDGET (child->button), 0,
+                      NULL, 0, GDK_ACTION_DEFAULT);
+   g_signal_connect_swapped (G_OBJECT (child->button), "drag-motion",
