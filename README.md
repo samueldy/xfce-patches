@@ -18,8 +18,8 @@ Don't expect any polished features. It's all just meant to be for personal use.
 * [xfdesktop](#xfdesktop)
   * [Right-click command](#right-click-command)
 * [xfce4-panel](#xfce4-panel)
-  * [Tasklist: centered labels](#tasklist:-centered-labels)
-  * [Tasklist: faded long labels](#tasklist:-faded-long-labels)
+  * [Tasklist: centered labels](#tasklist-centered-labels)
+  * [Tasklist: faded long labels](#tasklist-faded-long-labels)
 
 ## xfwm4
 
