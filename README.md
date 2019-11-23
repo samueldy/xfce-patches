@@ -12,9 +12,9 @@ Don't expect any polished features. It's all just meant to be for personal use.
 
 * [xfwm4](#xfwm4)
   * [Rounded corners](#rounded-corners)
-  * [Center window 1/2](#center-window-1/2)
+  * [Center window 1/2](#center-window-12)
 * [libxfce4ui](#libxfce4ui)
-  * [Center window 2/2](#center-window-2/2)
+  * [Center window 2/2](#center-window-22)
 * [xfdesktop](#xfdesktop)
   * [Right-click command](#right-click-command)
 * [xfce4-panel](#xfce4-panel)
