@@ -12,9 +12,9 @@ Don't expect any polished features. It's all just meant to be for personal use.
 
 * [xfwm4](#xfwm4)
   * [Rounded corners](#rounded-corners)
-  * [Center window <small>(1/2)</small>](#center-window-12)
+  * [Center window <sub><sup>(1/2)</sup></sub>](#center-window-12)
 * [libxfce4ui](#libxfce4ui)
-  * [Center window <small>(2/2)</small>](#center-window-22)
+  * [Center window <sub><sup>(2/2)</sup></sub>](#center-window-22)
 * [xfdesktop](#xfdesktop)
   * [Right-click command](#right-click-command)
 * [xfce4-panel](#xfce4-panel)
@@ -80,7 +80,7 @@ xfconf-query -c xfwm4 -p /general/rounded_corners_keep_decorations -s false
 
 Setting the radius value to 0 disables the effect and restores original window shapes.
 
-### Center window <small>(1/2)</small>
+### Center window <sub><sup>(1/2)</sup></sub>
 
 This is the first part of a patch that enables binding a keyboard shortcut to center the focused window.
 
@@ -123,7 +123,7 @@ sudo apt install --reinstall libxfce4ui-1-0
 sudo apt install --reinstall libxfce4ui-2-0
 ```
 
-### Center window <small>(2/2)</small>
+### Center window <sub><sup>(2/2)</sup></sub>
 
 This is the second part of the patch that enables binding a keyboard shortcut to center the focused window.
 
