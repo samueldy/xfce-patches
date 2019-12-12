@@ -2,19 +2,21 @@
 
 This is a repository with patches for some Xfce's components.
 
+Don't expect any polished features. It's all just meant to be for personal use.
+
+## Note
+
 Because Xfce is a modular desktop environment and its components may interact between themselves, the safest way is to keep them at the same versions as they're intended to be shipped with together. If you want to upgrade components to versions different than your currently installed, keep in mind that you might encounter some major or minor issues.
 
 You can always check the version of any Xfce's component by using the `--version` option while executing its binary in the terminal. The component's version targeted by a patch is indicated in the file name of the given patch.
-
-Don't expect any polished features. It's all just meant to be for personal use.
 
 ## Available patches
 
 * [xfwm4](#xfwm4)
   * [Rounded corners](#rounded-corners)
-  * [Center window <sub><sup>(1/2)</sup></sub>](#center-window-12)
+  * [Center window (part 1)](#center-window-part-1)
 * [libxfce4ui](#libxfce4ui)
-  * [Center window <sub><sup>(2/2)</sup></sub>](#center-window-22)
+  * [Center window (part 2)](#center-window-part-2)
 * [xfdesktop](#xfdesktop)
   * [Right-click command](#right-click-command)
 * [xfce4-panel](#xfce4-panel)
@@ -80,7 +82,7 @@ xfconf-query -c xfwm4 -p /general/rounded_corners_keep_decorations -s false
 
 Setting the radius value to 0 disables the effect and restores original window shapes.
 
-### Center window <sub><sup>(1/2)</sup></sub>
+### Center window (part 1)
 
 This is the first part of a patch that enables binding a keyboard shortcut to center the focused window.
 
@@ -123,7 +125,7 @@ sudo apt install --reinstall libxfce4ui-1-0
 sudo apt install --reinstall libxfce4ui-2-0
 ```
 
-### Center window <sub><sup>(2/2)</sup></sub>
+### Center window (part 2)
 
 This is the second part of the patch that enables binding a keyboard shortcut to center the focused window.
 
