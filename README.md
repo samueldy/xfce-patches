@@ -4,7 +4,12 @@ This is a repository with patches for some Xfce's components.
 
 Don't expect any polished features. It's all just meant to be for personal use.
 
-## Note
+You can see some patches (rounded corners, centered labels, faded long labels) in action on the screenshot:
+
+![](SCREENSHOT.png)
+
+
+## About versions
 
 Because Xfce is a modular desktop environment and its components may interact between themselves, the safest way is to keep them at the same versions as they're intended to be shipped with together. If you want to upgrade components to versions different than your currently installed, keep in mind that you might encounter some major or minor issues.
 
