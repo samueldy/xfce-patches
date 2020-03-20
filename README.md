@@ -161,6 +161,8 @@ Configure the build environment (install required dependencies on your own) and 
 ./autogen.sh --prefix=/usr --libdir=$LIBDIRPATH --libexecdir=$LIBDIRPATH && make
 ```
 
+_Note:_ Make sure to install `libgarcon` development package, as it's marked as optional, but it's important.
+
 Check if the compiled version is working correctly:
 ```
 killall xfdesktop; ./src/xfdesktop & disown
