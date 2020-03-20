@@ -196,7 +196,7 @@ To specify the command, use following <strike>comm</strike> query:
 xfconf-query -c xfce4-desktop -p /general/right-click-command -s "jgmenu_run"
 ```
 
-As a side note, `jgmenu_run` refers to the [jgmenu](https://github.com/johanmalm/jgmenu) application, that is a nice replacement for the built-in menu.
+_Note:_ `jgmenu_run` refers to the [jgmenu](https://github.com/johanmalm/jgmenu) application, that is a nice replacement for the built-in menu.
 
 ## xfce4-panel
 
