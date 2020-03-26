@@ -4,7 +4,7 @@ This is a repository with patches for some Xfce's components.
 
 Don't expect any polished features. It's all just meant to be for personal use.
 
-You can see some patches (rounded corners, centered labels, faded long labels) in action on the screenshot:
+You can see some patches (rounded corners, centered labels, faded long labels, right-click command) in action:
 
 ![](SCREENSHOT.png)
 
