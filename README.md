@@ -4,11 +4,6 @@ This is a repository with patches for some Xfce's components.
 
 Don't expect any polished features. It's all just meant to be for personal use.
 
-You can see some patches (rounded corners, centered labels, faded long labels, right-click command) in action:
-
-![](SCREENSHOT.png)
-
-
 ## About versions
 
 Because Xfce is a modular desktop environment and its components may interact between themselves, the safest way is to keep them at the same versions as they're intended to be shipped with together. If you want to upgrade components to versions different than your currently installed, keep in mind that you might encounter some major or minor issues.
@@ -188,7 +183,7 @@ To use the patch, drop its file into the source code directory, apply it and reb
 git apply xfdesktop-4.14.1-right-click-command.patch && make
 ```
 
-By default, the command is empty and everything works as usual. Once the command is specified and not empty, it'll be executed every time after right-clicking on a desktop area, and the applications menu will be no longer displayed. 
+By default, the command is empty and everything works as usual. Once the command is specified and not empty, it'll be executed every time after right-clicking on a desktop area, and the applications menu will be no longer displayed.
 
 To specify the command, use following <strike>comm</strike> query:
 
