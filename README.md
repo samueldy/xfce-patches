@@ -12,15 +12,15 @@ You can always check the version of any Xfce's component by using the `--version
 
 ## Available patches
 
-* [xfwm4](xfwm4/README.md)
-  * [Rounded corners](xfwm4/README.md#rounded-corners)
-  * [Center window (part 1)](xfwm4/README.md#center-window-part-1)
-* [libxfce4ui](libxfce4ui/README.md)
-  * [Center window (part 2)](libxfce4ui/README.md#center-window-part-2)
-* [xfdesktop](xfdesktop/README.md)
-  * [Right-click command](xfdesktop/README.md#right-click-command)
-* [xfce4-panel](xfce4-panel/README.md)
-  * [Tasklist: centered labels](xfce4-panel/README.md#tasklist-centered-labels)
-  * [Tasklist: faded long labels](xfce4-panel/README.md#tasklist-faded-long-labels)
+* [xfwm4](xfwm4)
+  * [Rounded corners](xfwm4#rounded-corners)
+  * [Center window (part 1)](xfwm4#center-window-part-1)
+* [libxfce4ui](libxfce4ui)
+  * [Center window (part 2)](libxfce4ui#center-window-part-2)
+* [xfdesktop](xfdesktop)
+  * [Right-click command](xfdesktop#right-click-command)
+* [xfce4-panel](xfce4-panel)
+  * [Tasklist: centered labels](xfce4-panel#tasklist-centered-labels)
+  * [Tasklist: faded long labels](xfce4-panel#tasklist-faded-long-labels)
 
 More updates and patches - to be decided.
