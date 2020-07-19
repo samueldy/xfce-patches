@@ -1,5 +1,10 @@
 # xfwm4
 
+## Available patches
+
+  * [Rounded corners](#rounded-corners)
+  * [Center window (part 1)](#center-window-part-1)
+
 ## Building and running
 
 Get the xfwm4's source code and checkout a tag related to a supported version:

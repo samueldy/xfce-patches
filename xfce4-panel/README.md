@@ -1,5 +1,10 @@
 # xfce4-panel
 
+## Available patches
+
+* [Tasklist: centered labels](#tasklist-centered-labels)
+* [Tasklist: faded long labels](#tasklist-faded-long-labels)
+
 ## Building and running
 
 Get the xfce4-panel's source code and checkout a tag related to a supported version:

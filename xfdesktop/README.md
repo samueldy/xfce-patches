@@ -1,5 +1,9 @@
 # xfdesktop
 
+## Available patches
+
+* [Right-click command](#right-click-command)
+
 ## Building and running
 
 Get the xfdesktop's source code and checkout a tag related to a supported version:
@@ -47,10 +51,8 @@ git apply xfdesktop-4.14.1-right-click-command.patch && make
 
 By default, the command is empty and everything works as usual. Once the command is specified and not empty, it'll be executed every time after right-clicking on a desktop area, and the applications menu will be no longer displayed.
 
-To specify the command, use following <strike>comm</strike> query:
+To specify the command, use following query:
 
 ```
-xfconf-query -c xfce4-desktop -p /general/right-click-command -s "jgmenu_run"
+xfconf-query -c xfce4-desktop -p /general/right-click-command -s "xfce4-terminal"
 ```
-
-_Note:_ `jgmenu_run` refers to the [jgmenu](https://github.com/johanmalm/jgmenu) application, that is a nice replacement for the built-in menu.

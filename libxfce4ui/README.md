@@ -1,5 +1,9 @@
 # libxfce4ui
 
+## Available patches
+
+* [Center window (part 2)](#center-window-part-2)
+
 ## Building and running
 
 Get the libxfce4ui's source code and checkout a tag related to a supported version:
