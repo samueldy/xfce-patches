@@ -1,0 +1,192 @@
+diff --git a/plugins/separator/separator-dialog.glade b/plugins/separator/separator-dialog.glade
+index bdfbcd71..d02bb800 100644
+--- a/plugins/separator/separator-dialog.glade
++++ b/plugins/separator/separator-dialog.glade
+@@ -33,6 +33,12 @@
+       </row>
+     </data>
+   </object>
++  <object class="GtkAdjustment" id="size-adj">
++    <property name="lower">1</property>
++    <property name="upper">100</property>
++    <property name="value">1</property>
++    <property name="step_increment">1</property>
++  </object>
+   <object class="XfceTitledDialog" id="dialog">
+     <property name="can_focus">False</property>
+     <property name="title" translatable="yes">Separator</property>
+@@ -152,13 +158,48 @@
+                       </packing>
+                     </child>
+                     <child>
+-                      <object class="GtkCheckButton" id="expand">
+-                        <property name="label" translatable="yes">_Expand</property>
++                      <object class="GtkBox" id="hbox2">
+                         <property name="visible">True</property>
+-                        <property name="can_focus">True</property>
+-                        <property name="receives_default">False</property>
+-                        <property name="use_underline">True</property>
+-                        <property name="draw_indicator">True</property>
++                        <property name="can_focus">False</property>
++                        <property name="spacing">12</property>
++                        <child>
++                          <object class="GtkLabel" id="label3">
++                            <property name="visible">True</property>
++                            <property name="can_focus">False</property>
++                            <property name="label" translatable="yes">_Size:</property>
++                            <property name="use_underline">True</property>
++                            <property name="mnemonic_widget">size</property>
++                          </object>
++                          <packing>
++                            <property name="expand">False</property>
++                            <property name="fill">True</property>
++                            <property name="position">0</property>
++                          </packing>
++                        </child>
++                        <child>
++                          <object class="GtkSpinButton" id="size">
++                            <property name="visible">True</property>
++                            <property name="can_focus">True</property>
++                            <property name="numeric">True</property>
++                            <property name="adjustment">size-adj</property>
++                            <property name="receives_default">False</property>
++                          </object>
++                          <packing>
++                            <property name="expand">True</property>
++                            <property name="fill">True</property>
++                            <property name="position">1</property>
++                          </packing>
++                        </child>
++                        <child>
++                          <object class="GtkCheckButton" id="expand">
++                            <property name="label" translatable="yes">_Expand</property>
++                            <property name="visible">True</property>
++                            <property name="can_focus">True</property>
++                            <property name="receives_default">False</property>
++                            <property name="use_underline">True</property>
++                            <property name="draw_indicator">True</property>
++                          </object>
++                        </child>
+                       </object>
+                       <packing>
+                         <property name="expand">False</property>
+diff --git a/plugins/separator/separator.c b/plugins/separator/separator.c
+index 7ece3b49..c2899c82 100644
+--- a/plugins/separator/separator.c
++++ b/plugins/separator/separator.c
+@@ -88,13 +88,17 @@ struct _SeparatorPlugin
+ 
+   /* separator style */
+   SeparatorPluginStyle  style;
++
++  /* separator size*/
++  guint size;
+ };
+ 
+ enum
+ {
+   PROP_0,
+   PROP_STYLE,
+-  PROP_EXPAND
++  PROP_EXPAND,
++  PROP_SIZE
+ };
+ 
+ 
+@@ -139,6 +143,13 @@ separator_plugin_class_init (SeparatorPluginClass *klass)
+                                                          NULL, NULL,
+                                                          FALSE,
+                                                          G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
++
++  g_object_class_install_property (gobject_class,
++                                   PROP_SIZE,
++                                   g_param_spec_uint ("size",
++                                                      NULL, NULL,
++                                                      1, 100, SEPARATOR_SIZE,
++                                                      G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+ }
+ 
+ 
+@@ -147,6 +158,7 @@ static void
+ separator_plugin_init (SeparatorPlugin *plugin)
+ {
+   plugin->style = SEPARATOR_PLUGIN_STYLE_DEFAULT;
++  plugin->size = SEPARATOR_SIZE;
+ }
+ 
+ 
+@@ -171,6 +183,10 @@ separator_plugin_get_property (GObject    *object,
+       g_value_set_boolean (value, expand);
+       break;
+ 
++    case PROP_SIZE:
++      g_value_set_uint (value, plugin->size);
++      break;
++
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+       break;
+@@ -204,6 +220,15 @@ separator_plugin_set_property (GObject      *object,
+                                     g_value_get_boolean (value));
+       break;
+ 
++    case PROP_SIZE:
++      plugin->size = g_value_get_uint (value);
++      if (plugin->size > 100)
++        plugin->size = 100;
++
++      separator_plugin_size_changed (XFCE_PANEL_PLUGIN (plugin),
++                                     xfce_panel_plugin_get_size (XFCE_PANEL_PLUGIN (plugin)));
++      break;
++
+     default:
+       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+       break;
+@@ -324,6 +349,7 @@ separator_plugin_construct (XfcePanelPlugin *panel_plugin)
+   {
+     { "style", G_TYPE_UINT },
+     { "expand", G_TYPE_BOOLEAN },
++    { "size", G_TYPE_UINT },
+     { NULL }
+   };
+ 
+@@ -346,14 +372,16 @@ static gboolean
+ separator_plugin_size_changed (XfcePanelPlugin *panel_plugin,
+                                gint             size)
+ {
++  SeparatorPlugin *plugin = XFCE_SEPARATOR_PLUGIN (panel_plugin);
++
+   /* set the minimum separator size */
+   if (xfce_panel_plugin_get_orientation (panel_plugin) ==
+       GTK_ORIENTATION_HORIZONTAL)
+     gtk_widget_set_size_request (GTK_WIDGET (panel_plugin),
+-                                 SEPARATOR_SIZE, size);
++                                 plugin->size, size);
+   else
+     gtk_widget_set_size_request (GTK_WIDGET (panel_plugin),
+-                                 size, SEPARATOR_SIZE);
++                                 size, plugin->size);
+ 
+   return TRUE;
+ }
+@@ -366,7 +394,7 @@ separator_plugin_configure_plugin (XfcePanelPlugin *panel_plugin)
+   SeparatorPlugin *plugin = XFCE_SEPARATOR_PLUGIN (panel_plugin);
+   GtkBuilder      *builder;
+   GObject         *dialog;
+-  GObject         *style, *expand;
++  GObject         *style, *expand, *size;
+ 
+   panel_return_if_fail (XFCE_IS_SEPARATOR_PLUGIN (plugin));
+ 
+@@ -386,6 +414,11 @@ separator_plugin_configure_plugin (XfcePanelPlugin *panel_plugin)
+                           G_OBJECT (expand), "active",
+                           G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+ 
++  size = gtk_builder_get_object (builder, "size");
++  g_object_bind_property (G_OBJECT (plugin), "size",
++                          G_OBJECT (size), "value",
++                          G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
++
+   gtk_widget_show (GTK_WIDGET (dialog));
+ }
+ 

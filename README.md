@@ -22,6 +22,7 @@ You can always check the version of any Xfce's component by using the `--version
 - [xfce4-panel](#xfce4-panel)
   - [Tasklist: centered labels](#tasklist-centered-labels)
   - [Tasklist: faded long labels](#tasklist-faded-long-labels)
+  - [Separator: configurable size](#separator-configurable-size)
 
 ## xfwm4
 
@@ -266,4 +267,15 @@ By default, the overlay has the same color for normal, hovered and active window
 To see updated colors, you need to restart the panel:
 ```
 xfce4-panel --restart
+```
+
+### Separator: configurable size
+
+This is a patch for the separator plugin that provides size configuration in its properties dialog.
+
+The spinner available in the properties dialog handles values from 1 up to 100 pixels. That should be enough.
+
+To use the patch, drop its file into the source code directory, apply it and rebuild the modified version:
+```
+git apply xfce4-panel-4.14.1-separator-configurable-size.patch && make
 ```
