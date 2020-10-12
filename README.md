@@ -4,11 +4,19 @@ This is a repository with patches for some Xfce's components.
 
 Don't expect any polished features. It's all just meant to be for personal use.
 
+You can see some of the patches (panel-related, rounded corners) in action in the screenshot below.
+
+![Screenshot](screenshot.png)
+
+<sup>For a simple flat panel setup like that, some `gtk.css` adjustments are needed. See [this gist](https://gist.github.com/wsdfhjxc/b0d52ac527862e8fdd37684bc8456a28) for more details.</sup>
+
 ## About versions
 
 Because Xfce is a modular desktop environment and its components may interact between themselves, the safest way is to keep them at the same versions as they're intended to be shipped with together. If you want to selectively upgrade (or downgrade) components, keep in mind that you might encounter some major or minor issues.
 
 You can always check the version of any Xfce's component by using the `--version` option while executing its binary in the terminal. The component's version targeted by a patch is indicated in the file name of the given patch.
+
+Having said that, all of the patches are currently available only for Xfce 4.14, which is, for example, shipped with Xubuntu 20.04 LTS. On newer Xfce's releases, it's likely that there will be conflicts when trying to apply the patches.
 
 ## Available patches
 
@@ -73,7 +81,7 @@ git apply xfwm4-4.14.0-rounded-corners.patch && make
 
 By default, rounded corners have a radius of 8 px and are disabled for maximized windows. Also, window decorations are visible by default, but mind that most xfwm themes won't look good with rounded corners because they provide side and bottom borders. Themes with no borders, but only with titlebar, should look fine though.
 
-To configure mentioned options, use following commands:
+To configure mentioned options, use the following commands:
 
 ```
 xfconf-query -c xfwm4 -p /general/rounded_corners_radius -s 12
@@ -186,7 +194,7 @@ git apply xfdesktop-4.14.1-right-click-command.patch && make
 
 By default, the command is empty and everything works as usual. Once the command is specified and not empty, it'll be executed every time after right-clicking on a desktop area, and the applications menu will be no longer displayed.
 
-To specify the command, use following query:
+To specify the command, use the following query:
 
 ```
 xfconf-query -c xfce4-desktop -p /general/right-click-command -s "xfce4-terminal"
@@ -257,7 +265,7 @@ To use the patch, drop its file into the source code directory, apply it and reb
 git apply xfce4-panel-4.14.1-tasklist-faded-long-labels.patch && make
 ```
 
-By default, the overlay has the same color for normal, hovered and active window button's state, and it's picked from the panel background color. Because that might look weird with most themes, you can adjust the overlay colors for these states, by adding following lines to the `~/.config/gtk-3.0/gtk.css` file:
+By default, the overlay has the same color for normal, hovered and active window button's state, and it's picked from the panel background color. Because that might look weird with most themes, you can adjust the overlay colors for these states, by adding the following lines to the `~/.config/gtk-3.0/gtk.css` file:
 ```
 @define-color tasklist_faded_long_labels_color #ff0000;
 @define-color tasklist_faded_long_labels_color_hover #00ff00;
@@ -273,7 +281,7 @@ xfce4-panel --restart
 
 This is a patch for the separator plugin that provides size configuration in its properties dialog.
 
-The spinner available in the properties dialog handles values from 1 up to 100 pixels. That should be enough.
+The spinner available in the properties dialog allows setting the separator instance's size ranging from 1 up to 100 pixels. You can now forget about stacking multiple separators just to make larger margins between panel items.
 
 To use the patch, drop its file into the source code directory, apply it and rebuild the modified version:
 ```
