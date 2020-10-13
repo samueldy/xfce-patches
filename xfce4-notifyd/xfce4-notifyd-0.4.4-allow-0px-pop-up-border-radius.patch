@@ -1,0 +1,20 @@
+diff --git a/xfce4-notifyd/xfce-notify-window.c b/xfce4-notifyd/xfce-notify-window.c
+index b43037d..4d452c1 100644
+--- a/xfce4-notifyd/xfce-notify-window.c
++++ b/xfce4-notifyd/xfce-notify-window.c
+@@ -413,15 +413,6 @@ xfce_notify_window_draw_rectangle (XfceNotifyWindow *window,
+     border_width = get_max_border_width (context, state);
+     border_padding = border_width / 2.0;
+ 
+-    /* Always use a small rounded corners. This should not be necessary in
+-     * theory, as Adwaita defined border-radius: 0 0 6px 6px; for the
+-     * app-notification and osd css classes. The problem is that Gtk for some
+-     * reason gets the border-radius as gint and not as GtkBorder. Getting
+-     * this way the first value only, which is 0. */
+-    if ( radius == 0 ) {
+-        radius = 6;
+-    }
+-
+     cairo_move_to(cr, border_padding, radius + border_padding);
+     cairo_arc(cr, radius + border_padding,
+               radius + border_padding, radius,

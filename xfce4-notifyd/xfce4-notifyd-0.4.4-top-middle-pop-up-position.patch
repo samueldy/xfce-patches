@@ -1,0 +1,37 @@
+diff --git a/xfce4-notifyd-config/xfce4-notifyd-config.glade b/xfce4-notifyd-config/xfce4-notifyd-config.glade
+index 7a91464..f55820b 100644
+--- a/xfce4-notifyd-config/xfce4-notifyd-config.glade
++++ b/xfce4-notifyd-config/xfce4-notifyd-config.glade
+@@ -80,6 +80,9 @@
+       <row>
+         <col id="0" translatable="yes">Bottom right</col>
+       </row>
++      <row>
++        <col id="0" translatable="yes">Top middle</col>
++      </row>
+     </data>
+   </object>
+   <object class="XfceTitledDialog" id="notifyd_settings_dlg">
+diff --git a/xfce4-notifyd/xfce-notify-daemon.c b/xfce4-notifyd/xfce-notify-daemon.c
+index ed82b04..10ecee1 100644
+--- a/xfce4-notifyd/xfce-notify-daemon.c
++++ b/xfce4-notifyd/xfce-notify-daemon.c
+@@ -777,6 +777,10 @@ xfce_notify_daemon_window_size_allocate(GtkWidget *widget,
+             initial.x = geom.x + geom.width - allocation->width - SPACE;
+             initial.y = geom.y + geom.height - allocation->height - SPACE;
+             break;
++        case 4: /* Top middle */
++            initial.x = geom.x + (geom.width - allocation->width) / 2;
++            initial.y = geom.y + SPACE;
++            break;
+         default:
+             g_warning("Invalid notify location: %d", xndaemon->notify_location);
+             return;
+@@ -839,6 +843,7 @@ xfce_notify_daemon_window_size_allocate(GtkWidget *widget,
+                 found = TRUE;
+             } else {
+                 switch(xndaemon->notify_location) {
++                    case 4:
+                     case GTK_CORNER_TOP_LEFT:
+                         DBG("Try under the current candiadate position.");
+                         widget_geom.y = notification_y + notification_height + SPACE;

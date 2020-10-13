@@ -31,6 +31,9 @@ Having said that, all of the patches are currently available only for Xfce 4.14,
   - [Tasklist: centered labels](#tasklist-centered-labels)
   - [Tasklist: faded long labels](#tasklist-faded-long-labels)
   - [Separator: configurable size](#separator-configurable-size)
+- [xfce4-notifyd](#xfce4-notifyd)
+  - [Top middle pop-up position](#top-middle-pop-up-position)
+  - [Allow 0px pop-up border radius](#allow-0px-pop-up-border-radius)
 
 ## xfwm4
 
@@ -286,4 +289,60 @@ The spinner available in the properties dialog allows setting the separator inst
 To use the patch, drop its file into the source code directory, apply it and rebuild the modified version:
 ```
 git apply xfce4-panel-4.14.1-separator-configurable-size.patch && make
+```
+
+## xfce4-notifyd
+
+### Building and running
+
+Get the xfce4-notifyd's source code and checkout a tag related to a supported version:
+```
+git clone https://github.com/xfce-mirror/xfce4-notifyd.git && cd xfce4-notifyd
+git checkout xfce4-notifyd-0.4.4
+```
+
+Determine the system library path (do it on your own) and set a variable. For a Ubuntu-based distro it'll be:
+```
+LIBDIRPATH=/usr/lib/x86_64-linux-gnu
+```
+
+Configure the build environment (install required dependencies on your own) and compile the source code:
+```
+./autogen.sh --prefix=/usr --libdir=$LIBDIRPATH --libexecdir=$LIBDIRPATH && make
+```
+
+Check if the compiled version is working correctly:
+```
+killall xfce4-notifyd; ./xfce4-notifyd/xfce4-notifyd & disown
+```
+
+If everything's fine, you can replace your currently installed version:
+```
+sudo make install
+```
+
+If you want to restore the original version (example for Ubuntu):
+```
+sudo make uninstall
+sudo apt install --reinstall xfce4-notifyd
+```
+
+### Top middle pop-up position
+
+This is a patch that adds the top middle pop-up position to the notification settings.
+
+To use the patch, drop its file into the source code directory, apply it and rebuild the modified version:
+```
+git apply xfce4-notifyd-0.4.4-top-middle-pop-up-position.patch && make
+```
+
+### Allow 0px pop-up border radius
+
+This is a patch that allows setting proper 0px border radius for the notification pop-up.
+
+The custom CSS rule `#XfceNotifyWindow { border-radius: 0px; }` placed in the notification theme's stylesheet (for example located at `~/.themes/Theme/xfce-notify-4.0/gtk.css`) won't be ignored anymore.
+
+To use the patch, drop its file into the source code directory, apply it and rebuild the modified version:
+```
+git apply xfce4-notifyd-0.4.4-allow-0px-pop-up-border-radius.patch && make
 ```
